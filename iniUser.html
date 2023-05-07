@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>zCloud云桌面</title>
+  <link rel="Shortcut Icon" href="desktop/images/zCloud.png" type="image/x-icon"/>
+  <link rel="stylesheet" href="desktop/desktop.css" type="text/css"/>
+  <script type="text/javascript" src="desktop/desktopUser.js"></script>
+</head>
+<body>
+<div id="desktopwrap" class="wrap clear">
+  <div id="desktop" class="desktop">
+    <div id="desktopContent" class="desktopContent clear"></div>
+    <!--    切换主题窗口-->
+    <div class="bgwindow" id="bgWindow">
+      <!--      弹窗顶栏-->
+      <div class="windowMenu" id="bgWindowMenu">
+        <div id="bgclose" class="windowClose"></div>
+      </div>
+      <div class="windowContent">
+        <ul>
+          <li><img src="desktop/images/background.jpg"/>
+            <p>默认</p>
+          </li>
+          <li><img src="images/bg1.jpg"/>
+            <p>win10</p>
+          </li>
+          <li><img src="images/bg2.jpg"/>
+            <p>深蓝</p>
+          </li>
+          <li><img src="images/bg7.jpg"/>
+            <p>梦翔天际</p>
+          </li>
+          <li><img src="images/bg4.jpg"/>
+            <p>水梦年华</p>
+          </li>
+          <li><img src="images/px.png"/>
+            <p>蒲英之梦</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--        svg窗口-->
+    <!--    <div class="svgWindow" id="svgWindow">-->
+    <!--      <div class="windowMenu" id="bgWindowMenu">-->
+    <!--        <div id="bgclose" class="windowClose"></div>-->
+    <!--      </div>-->
+    <!--      <div class="windowContent"></div>-->
+    <!--    </div>-->
+    <!--  </div>-->
+    <!--  <img src="images/px.png" height="100%" width="100%" alt="background" id="deskbg1" class="deskbg">-->
+    <img src="images/bg2.jpg" height="100%" width="100%" id="bgid" class="desktopbg">
+    <!--  app状态拦-->
+<!--      <div id="box" class="box">-->
+<!--        <img src="images/0.png" width="64" />-->
+<!--        <img src="images/1.png" width="64" />-->
+<!--        <img src="images/2.png" width="64" />-->
+<!--        <img src="images/3.png" width="64" />-->
+<!--      </div>-->
+    <!--  底部任务拦-->
+    <div class="task">
+      <div id="taskIcon" class="taskIcon"></div>
+      <div id="showTime" class="showTime"></div>
+      <div id="network" class="network"></div>
+      <div id="zCloud" class="zCloud"></div>
+    </div>
+  </div>
+  <div id="mask" class="mask"><img src="desktop/images/mask.png"/>
+    <div id="time" class="time"><p id="hour" class="hour"></p>
+      <p id="date" class="date"></p></div>
+  </div>
+</div>
+</body>
+</html>

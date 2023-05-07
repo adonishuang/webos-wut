@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vaa</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+    <div id="app">
+      <el-button type="primary" @click="dialogVisible = true">注册标识</el-button>
+      <el-button type="text" @click="open()">订阅列表</el-button>
+        <el-table
+          :data="tableData"
+          style="width: 100%">
+          <el-table-column
+            label="标识属性索引"
+            prop="idd">
+          </el-table-column>
+          <el-table-column
+            label="标识"
+            prop="identificationn">
+          </el-table-column>
+          <el-table-column
+            label="前缀"
+            prop="prefixx">
+          </el-table-column>
+          <el-table-column
+            label="权限码"
+            prop="permissioncodee">
+          </el-table-column>
+          <el-table-column
+            label="标识属性类型"
+            prop="typee">
+          </el-table-column>
+          <el-table-column
+            label="标识属性内容格式"
+            prop="formatt">
+          </el-table-column>
+          <el-table-column
+            label="标识属性内容值"
+            prop="valuee">
+          </el-table-column>
+          <el-table-column
+          style="display:flex"
+            align="right">
+            <template slot="header" slot-scope="scope">
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="输入关键字搜索"
+                @input="lookUp()"
+                />
+                
+            </template>
+            <template slot-scope="scope" style="display:flex">
+              <el-button 
+             
+              size="mini" 
+              type="primary"
+              
+              @click="subScribe(scope.row.identificationn)">订阅</el-button>
+
+              <el-button
+                size="mini"
+                @click="modify(scope.row,scope.row.identificationn)"
+                
+                >修改</el-button>
+                <el-button
+                size="mini"
+                style="margin: 10px"
+                @click="modify(scope.row,scope.row.identificationn)"
+                >查看</el-button>
+              <el-popconfirm
+                  title="这是一段内容确定删除吗？"
+                  @confirm="deleteVaa(scope.row.identificationn)"
+              >
+                <el-button size="mini" type="danger" slot="reference" >删除</el-button>
+              </el-popconfirm>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :total="totalNum"
+          @next-click="getList(pageNum+1)"
+          @prev-click="getList(pageNum-1)"
+          @current-change="handleCurrenChange"
+          >
+        </el-pagination>
+
+        <el-dialog
+          title="提示"
+          :visible.sync="dialogVisible"
+          width="50%"
+          >
+
+          <el-form :model="ruleForm" status-icon ref="ruleForm" label-width="140px" class="demo-ruleForm">
+            <el-form-item label="标识" >
+              <el-input type="text" v-model="ruleForm.identificationn" ></el-input>
+            </el-form-item>
+            <el-form-item label="标识前缀" >
+              <el-input type="text" v-model="ruleForm.prefixx"></el-input>
+            </el-form-item>
+            <el-form-item label="权限码" >
+              <el-input type="text" v-model="ruleForm.permissioncodee"></el-input>
+            </el-form-item>
+            <el-form-item label="标识属性索引" >
+              <el-input type="text" v-model="ruleForm.idd"></el-input>
+            </el-form-item>
+            <el-form-item label="标识属性类型" >
+              <el-input type="text" v-model="ruleForm.typee"></el-input>
+            </el-form-item>
+            <el-form-item label="标识属性内容格式" >
+              <el-input type="text" v-model="ruleForm.formatt"></el-input>
+            </el-form-item>
+            <el-form-item label="标识属性内容值" >
+              <el-input type="text" v-model="ruleForm.valuee"></el-input>
+            </el-form-item>
+          </el-form>
+
+
+          <span slot="footer" class="dialog-footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="submitForm()">添 加</el-button>
+            <el-button type="primary" @click="submitForm1()">修 改</el-button>
+          </span>
+        </el-dialog>
+        <el-dialog title="订阅列表" :visible.sync="dialogTableVisible">
+          <el-table :data="gridData">
+            <el-table-column property="sbif" label="标识" width="200"></el-table-column>
+            <el-table-column property="datee" label="日期" width="150"></el-table-column>
+            
+          </el-table>
+        </el-dialog>
+    </div>
+<script>
+    let vue =new Vue({
+        el:"#app",
+        data(){
+          return{
+            tableData:[],
+            url: 'http://111.4.83.67:48081/vaa',
+            pageNum: 1,
+            pageSize: 10,
+            search: '',
+            dialogVisible:false,
+            ruleForm: {},//修改或添加的信息
+            totalNum: 0,
+            url1: 'http://111.4.83.67:48081/sb',
+            gridData:[],//对话框内订阅信息的data
+            dialogTableVisible:false,//订阅信息的显示与否
+            identificationn:'',//要传递的标识
+            k:''//判断是否删除订阅
+          }
+        },
+        methods:{
+          subScribe(identificationn){
+            let that=this
+           console.log('获取的标识'+identificationn)
+           console.log(identificationn)
+            axios.post(this.url1+'/add',{sbif:identificationn}).then(function(res){
+                if(res.data.success){
+                  console.log(res.data.data)
+                that.$message({
+                  type: 'success',
+                  message: res.data.message
+                })
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+          },
+
+          open(){
+            this.dialogTableVisible = true
+            let that=this
+            axios.get(this.url1+'/all',{
+
+            }).then(function(res){
+                console.log(res)
+                that.gridData=res.data.data
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+          },
+          lookUp(){
+            console.log("查找")
+            console.log(this.search)
+            let that =this
+            axios.post(this.url+'/list',{
+                pageNum:that.pageNum,
+                pageSize:this.pageSize,
+                keyword:this.search
+            }).then(function(res){
+                console.log(res)
+                that.tableData=res.data.data.records
+                that.totalNum=res.data.data.total
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+          },
+          handleCurrenChange(pageNum){
+            this.getList(pageNum)
+          },
+          deleteVaa(identificationn){
+            let that =this
+            axios.get(this.url+'/delete?identificationn='+identificationn).then(function (res){
+              if(res.data.success){
+                that.$message({
+                  type: 'success',
+                  message: res.data.data
+                })
+                that.getList(that.pageNum)
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (res){
+              console.log(res)
+            })
+
+            axios.get(this.url1+'/find?sbif='+identificationn).then(function(res){
+                if(res.data.success){
+                  console.log(res.data.data),
+                  console.log('找到订阅'),
+                  that.k=1
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+
+            if(that.k!=''){
+              axios.get(this.url1+'/delete?sbif='+identificationn).then(function(res){
+                if(res.data.success){
+                  console.log(res.data.data)
+                that.$message({
+                  type: 'success',
+                  message: res.data.message
+                })
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+            }
+
+
+          },
+
+          getList(pageNum){
+            let that =this
+            axios.post(this.url+'/list',{
+                pageNum:pageNum,
+                pageSize:this.pageSize
+            }).then(function(res){
+                console.log(res)
+                that.tableData=res.data.data.records
+                that.totalNum=res.data.data.total
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+          },
+
+          modify(vaa,identificationn){
+            this.ruleForm=vaa
+            this.dialogVisible = true
+            this.identificationn=identificationn
+            console.log(identificationn)
+            console.log(this.identificationn)
+          },
+
+
+          resetForm(){
+            this.ruleForm = {}
+          },
+
+          submitForm1(){
+            let that =this
+
+             axios.post(this.url+'/modify',this.ruleForm).then(function(res){
+                if(res.data.success){
+                that.$message({
+                  type: 'success',
+                  message: res.data.data
+                })
+                that.getList(that.pageNum)
+                that.ruleForm={}
+                that.dialogVisible=false
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+            console.log('标识'+that.identificationn)
+            
+            axios.get(this.url1+'/find?sbif='+that.identificationn).then(function(res){
+                if(res.data.success){
+                  console.log(res.data.data)
+                that.$message({
+                  type: 'success',
+                  message: res.data.message
+                })
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+
+
+
+          },
+
+          submitForm(){
+            console.log(this.ruleForm)
+            let that =this
+           
+            
+              axios.post(this.url+'/add',this.ruleForm).then(function(res){
+                if(res.data.success){
+                that.$message({
+                  type: 'success',
+                  message: res.data.data
+                })
+                that.getList(that.pageNum)
+                that.ruleForm={}
+                that.dialogVisible=false
+              }else{
+                that.$message({
+                  type: 'error',
+                  message: res.data.message
+                })
+              }
+            }).catch(function (error){
+                alert('error!')
+                console.log(error)
+            })
+            
+            
+            
+              
+            
+            
+          }
+        },
+        created(){
+            this.getList(1)
+        }
+    })
+</script>
+</body>
+</html>

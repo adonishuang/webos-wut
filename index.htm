@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="WebOS"/>
+    <title>WebOS</title>
+    <link rel="stylesheet" href="style/base.css" type="text/css"/>
+    <link rel="stylesheet" href="style/index.css" type="text/css"/>
+    <link rel="Shortcut Icon" href="images/RNG.png" type="image/x-icon"/>
+    <style>
+        div, img, p {padding:0;margin:0;border:0}
+        .mask {height:100%;width:100%;position:absolute;left:0;top:0;z-index:100;color:#fff;background:red;}
+        .mask img {width:700px;height:248px;position:absolute;left:0;bottom:0;opacity:0;
+            filter:alpha(opacity:0);}
+    </style>
+    <script type="text/javascript" src="javascript/base.js" ></script>
+    <script type="text/javascript" src="javascript/config.js" ></script>
+    <script type="text/javascript" src="javascript/main.js" ></script>
+    <script>
+        window.onbeforeunload = function (){
+            //return '你确定要离开Web吗？';
+        };
+        window.error = function (){
+
+        }
+        window.onload = function (){
+            var bgImg = $('#deskbg1'),
+                oBg = $('#bgWindow'),
+                aImg = $('<img>',oBg),
+                oMask = $('#mask'),
+                maskImg = $('<img>',oMask)[0];
+            var img = ['images/bg1.jpg','images/bg2.jpg','images/bg3.jpg','images/bg4.jpg','images/bg5.jpg','images/bg6.jpg'];
+            document.onmousedown = function(ev){
+                return false;
+            };
+            if(browInfo() == 'IE8'||browInfo() == 'IE7'||browInfo() == 'IE6'){
+                alert('sorry,'+browInfo());
+                return ;
+            }
+            //clearInterval()方法可取消由setInterval()函数设定的定时执行操作。clearInterval()方法的参数必须是由 setInterval()返回的ID值。
+            clearInterval(moveTimer);
+            fnMove(oMask,{opacity:0},function (){
+                oMask.style.display = 'none';
+            });
+            for(var i=0;i<aImg.length;i++){
+                aImg[i].src = img[i];
+            }
+            bgImg.src = img[2];
+            new desk().init();
+        };
+    </script>
+    <script>
+        document.write('<div id="mask" class="mask"><img src="images/mask2.png" /><div id="time" class="time"> <p id="hour" class="hour"></p><p id="date" class="date"></p></div></div>');
+    </script>
+    <script type="text/javascript" src="javascript/mask.js"></script>
+</head>
+<body>
+<div id="wrap" class="wrap clear">
+    <div id="desk" class="desk">
+        <!--滑动界面-->
+        <div id="deskContent" class="deskContent clear"></div>
+
+        <!--设置背景-->
+        <div class="bgwindow" id="bgWindow">
+            <div class="windowMenu" id="bgWindowMenu">
+                <div id="bgclose" class="windowClose"></div>
+            </div>
+            <div class="windowContent">
+                <ul>
+                    <li><img  src="images/px.png" />
+                        <p>茫茫野草</p>
+                    </li>
+                    <li><img  src="images/px.png" />
+                        <p>教师节</p>
+                    </li>
+                    <li><img  src="images/px.png" />
+                        <p>七夕</p>
+                    </li>
+                    <li><img  src="images/px.png" />
+                        <p>梦翔天际</p>
+                    </li>
+                    <li><img  src="images/px.png" />
+                        <p>水梦年华</p>
+                    </li>
+                    <li><img  src="images/px.png" />
+                        <p>蒲英之梦</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <img src="images/px.png" height="100%" width="100%" alt="background" id="deskbg1" class="deskbg">
+    <!--任务栏-->
+    <div class="task">
+        <!--图标-->
+        <div id="taskIcon" class="taskIcon"></div>
+        <!--时间-->
+        <div id="showTime" class="showTime"></div>
+        <!--网络-->
+        <div id="network" class="network"></div>
+    </div>
+</div>
+</body>
+</html>

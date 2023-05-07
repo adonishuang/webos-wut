@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>标识解析</title>
+	<link rel="stylesheet" href="./css/all.css" type="text/css" />
+</head>
+<body>
+    <div class="container">
+        <div class="login-wrapper" id="login-wrapper">
+            <div class="header">用户登录</div>
+            <div class="form-wrapper">
+				<div class="inp_panel">
+					<input type="text" id="usernameInp" name="username" placeholder="用户名" class="input-item">
+					<input type="password" id="passwordInp" name="password" placeholder="密码" class="input-item">
+                </div>
+				<button class="btn" id="loginBtn" >登录</button>
+				<div class="msg" id="loginMsg">
+
+				</div>
+            </div>
+        </div>
+
+		<div class="noneDisplay" id="title_business_moudle">
+			<span class="titleOfBusinessMouldeText" id="title_business_moudle_title">
+				标识相关操作
+			</span>
+			<a class="switchMoudle" id="switchMoudle">切换</a>
+		</div>
+
+		<!--标识模块-->
+		<div class="noneDisplay" id="handle-business-panel">
+			<ul class="topNavList">
+				<li>
+					<a class="navACur" id="queryA"> 查询 </a>
+				</li>
+				<li>
+					<a class="navA" id="registerA"> 注册 </a>
+				</li>
+				<li>
+					<a class="navA" id="updateA"> 更新 </a>
+				</li>
+				<li>
+					<a class="navA" id="deleteA"> 删除 </a>
+				</li>
+			</ul>
+			<div class="fun-panel" id="queryPanel">
+				<input type="text" id="query_handle" placeholder="请输入待查询标识" class="input-item">
+				<button class="btn" id="queryBtn" >确定</button>
+			</div>
+			<div class="noneDisplay" id="registerPanel">
+				<input type="number" value="1" onkeyup="value=value.replace(/[^\d]/g,'')" id="register_handlenum" min="1" placeholder="请输入待注册标识的个数" class="input-item">
+				<div class="noneDisplay" id="register_handletop">
+					<a class="lastNextA" id="registerLastA">上一个</a>
+					<span id="registerTopIndexText" class="currentIndexText">当前第1个</span>
+					<a class="lastNextA" id="registerNextA">下一个</a>
+				</div>
+				<div style="width: 100%;" id="register_handles">
+					<div style="width: 100%;" id="register_handle_object">
+						<input type="text" id="register_handle" placeholder="请输入待注册标识" class="input-item">
+						<input type="text" id="register_templateVersion" placeholder="请输入数据模板的产品型号" class="input-item">
+						<input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" id="register_valuenum" min="0" placeholder="请输入标识属性的个数" class="input-item">
+						<div style="width: 100%;" id="register_value">
+
+						</div>
+					</div>
+				</div>
+				<button class="btn" id="registerBtn" >确定</button>
+			</div>
+			<div class="noneDisplay" id="updatePanel">
+				<input type="number" value="1" onkeyup="value=value.replace(/[^\d]/g,'')" id="update_handlenum" min="1" placeholder="请输入待更新标识的个数" class="input-item">
+				<div class="noneDisplay" id="update_handletop">
+					<a class="lastNextA" id="updateLastA">上一个</a>
+					<span id="updateTopIndexText" class="currentIndexText">当前第1个</span>
+					<a class="lastNextA" id="updateNextA">下一个</a>
+				</div>
+				<div style="width: 100%;" id="update_handles">
+					<div style="width: 100%;" id="update_handle_object">
+						<input type="text" id="update_handle" placeholder="请输入待更新标识" class="input-item">
+						<input type="text" id="update_templateVersion" placeholder="请输入数据模板的产品型号" class="input-item">
+						<input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" id="update_valuenum" min="0" placeholder="请输入标识属性的个数" class="input-item">
+						<div style="width: 100%;" id="update_value">
+
+						</div>
+					</div>
+				</div>
+				<button class="btn" id="updateBtn" >确定</button>
+			</div>
+			<div class="noneDisplay" id="deletePanel">
+				<input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" id="delete_handlenum" min="1" value="1" placeholder="请输入待删除标识的个数" class="input-item">
+				<div style="width: 100%;" id="delete_handles">
+					<input type="text" id="delete_handle1" placeholder="请输入待删除标识" class="input-item">
+				</div>
+				<button class="btn" id="deleteBtn" >确定</button>
+			</div>
+		</div>
+		<!--数据模板模块-->
+		<div class="noneDisplay" id="template-business-panel">
+			<ul class="topNavList">
+				<li>
+					<a class="navACur" id="queryA-template"> 查询 </a>
+				</li>
+				<li>
+					<a class="navA" id="saveA-template"> 保存 </a>
+				</li>
+				<li>
+					<a class="navA" id="deleteA-template"> 删除 </a>
+				</li>
+			</ul>
+			<div class="fun-panel" id="queryPanel-template">
+				<input type="text" id="query_prefix-template" placeholder="请输入待查询数据模板的前缀" class="input-item">
+				<input type="text" id="query_version-template" placeholder="请输入待查询数据模板的模板版本" class="input-item">
+				<button class="btn" id="queryBtn-template" >确定</button>
+			</div>
+			<div class="noneDisplay" id="savePanel-template">
+				<input type="text" id="save_prefix-template" placeholder="请输入待保存数据模板的前缀" class="input-item">
+				<input type="text" id="save_version-template" placeholder="请输入待保存数据模板的模板版本" class="input-item">
+				<input type="text" id="save_description-template" placeholder="请输入待保存数据模板的描述" class="input-item">
+				<input type="number" onkeyup="value=value.replace(/[^\d]/g,'')" id="save_itemnum-template" min="0" placeholder="请输入模板内容条目的个数" class="input-item">
+				<div style="width: 100%;" id="save_items-template">
+
+				</div>
+				<button class="btn" id="saveBtn-template" >确定</button>
+			</div>
+			<div class="noneDisplay" id="deletePanel-template">
+				<input type="text" id="delete_prefix-template" placeholder="请输入待删除数据模板的前缀" class="input-item">
+				<input type="text" id="delete_version-template" placeholder="请输入待删除数据模板的模板版本" class="input-item">
+				<button class="btn" id="deleteBtn-template" >确定</button>
+			</div>
+		</div>
+		<!--企业模块-->
+		<div class="noneDisplay" id="ent-business-panel">
+			<ul class="topNavList">
+				<li>
+					<a class="navACur" id="registerA-ent"> 企业注册 </a>
+				</li>
+				<li>
+					<a class="navA" id="configA-ent"> 托管前缀配置 </a>
+				</li>
+				<li>
+					<a class="navA" id="configWithoutA-ent"> 未托管前缀配置 </a>
+				</li>
+				<li>
+					<a class="navA" id="queryPrefixA-ent"> 前缀查询 </a>
+				</li>
+			</ul>
+			<div class="fun-panel" id="registerPanel-ent">
+				<p class="valueIndex">用户信息</p>
+				<input type="text" id="register_sysUser_userName-ent" placeholder="请输入用户名" class="input-item">
+				<input type="text" id="register_sysUser_password-ent" placeholder="请输入密码" class="input-item">
+				<input type="text" id="register_sysUser_mobile-ent" placeholder="请输入手机号" class="input-item">
+				<input type="text" id="register_sysUser_email-ent" placeholder="请输入邮箱" class="input-item">
+				<input type="text" id="register_sysUser_remarks-ent" placeholder="请输入备注" class="input-item">
+				<p class="valueIndex">企业资质信息</p>
+				<input type="text" id="register_entApply_entPrefix-ent" placeholder="请输入企业前缀" class="input-item">
+				<input type="text" id="register_entApply_entNameCn-ent" placeholder="请输入企业名称" class="input-item">
+				<input type="text" id="register_entApply_entType-ent" placeholder="请输入企业类型代码" class="input-item">
+				<input type="text" id="register_entApply_entCrtCode-ent" placeholder="请输入信用代码" class="input-item">
+				<input type="text" id="register_entApply_entIndustry-ent" placeholder="请输入行业大类代码" class="input-item">
+				<input type="text" id="register_entApply_entTrade-ent" placeholder="请输入行业小类代码" class="input-item">
+				<input type="text" id="register_entApply_entProvinceCode-ent" placeholder="请输入省代码" class="input-item">
+				<input type="text" id="register_entApply_entCityCode-ent" placeholder="请输入市代码" class="input-item">
+				<input type="text" id="register_entApply_entCountyCode-ent" placeholder="请输入县代码" class="input-item">
+				<input type="text" id="register_entApply_entAddrCn-ent" placeholder="请输入详细地址" class="input-item">
+				<input type="text" id="register_entApply_entCrtType-ent" placeholder="请输入营业执照类型代码" class="input-item">
+
+				<p class="picLableText">请选择营业执照图片：</p>
+				<input class="fileinput" type="file" id="register_entApply_entCrtImgContent-ent" accept="image/gif, image/jpeg, image/png, image/jpg">
+				<!--
+				<input type="text" id="register_entApply_entCrtImgContent-ent" placeholder="营业执照图片" class="input-item">
+				-->
+				<input type="text" id="register_entApply_entWebSite-ent" placeholder="请输入网站" class="input-item">
+				<input type="text" id="register_entApply_email-ent" placeholder="请输入邮箱" class="input-item">
+				<input type="text" id="register_entApply_entDesc-ent" placeholder="请输入企业备注" class="input-item">
+
+				<input type="text" id="register_entApply_legalpName-ent" placeholder="请输入法人姓名" class="input-item">
+				<input type="text" id="register_entApply_legalpIdtype-ent" placeholder="请输入法人证件类型代码" class="input-item">
+				<input type="text" id="register_entApply_legalpIdno-ent" placeholder="请输入法人证件号码" class="input-item">
+
+				<p class="picLableText">请选择法人身份证附件的反面图片：</p>
+				<input class="fileinput" type="file" id="register_entApply_legalpIdImgBackContent-ent" accept="image/gif, image/jpeg, image/png, image/jpg">
+				<!--
+				<input type="text" id="register_entApply_legalpIdImgBackContent-ent" placeholder="法人身份证附件的反面图片" class="input-item">
+				-->
+
+				<p class="picLableText">请选择法人身份证附件的正面图片：</p>
+				<input class="fileinput" type="file" id="register_entApply_legalpIdImgFrontContent-ent" accept="image/gif, image/jpeg, image/png, image/jpg">
+				<!--
+				<input type="text" id="register_entApply_legalpIdImgFrontContent-ent" placeholder="法人身份证附件的正面图片" class="input-item">
+				-->
+				<input type="text" id="register_entApply_contactName-ent" placeholder="请输入联系人姓名" class="input-item">
+				<input type="text" id="register_entApply_mobile-ent" placeholder="请输入联系人手机号" class="input-item">
+				<input type="text" id="register_entApply_remarks-ent" placeholder="请输入备注" class="input-item">
+
+				<!-- 下拉选择
+				<input id="type123" type="text" list="typelist" placeholder="请选择" class="input-item">
+				<datalist id="typelist">
+				　　<option>Dimond</option>
+				　　<option>vertical</option>
+				</datalist>
+				-->
+				<button class="btn" id="registerBtn-ent" >确定</button>
+			</div>
+			<div class="noneDisplay" id="configPanel-ent">
+				<input type="number" id="config_proxyServerId-ent" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入托管服务器 id" class="input-item">
+				<input type="text" id="config_entPrefixConfig_entPrefix-ent" placeholder="请输入企业前缀" class="input-item">
+				<button class="btn" id="configBtn-ent" >确定</button>
+			</div>
+			<div class="noneDisplay" id="configWithoutPanel-ent">
+				<input type="text" id="configWithout_entPrefixConfig_entPrefix-ent" placeholder="请输入企业前缀" class="input-item">
+				<input type="text" id="configWithout_entPrefixConfig_hdlType-ent" placeholder="请输入 hdl 类型" class="input-item">
+				<input type="text" id="configWithout_entPrefixConfig_httpPort-ent" placeholder="请输入 http 端口" class="input-item">
+
+				<div class="myradio-panel">
+					<input type="radio" name="configWithout_entPrefixConfig_ipType_name-ent" id="configWithout_entPrefixConfig_ipType_V4-ent" checked=checked />
+					<label for="configWithout_entPrefixConfig_ipType_V4-ent">ipv4</label>
+					<input type="radio" name="configWithout_entPrefixConfig_ipType_name-ent" id="configWithout_entPrefixConfig_ipType_V6-ent"/>
+					<label for="configWithout_entPrefixConfig_ipType_V6-ent">ipv6</label>
+				</div>
+				<!--输入框-->
+				<!--  <input type="text" id="configWithout_entPrefixConfig_ipType-ent" placeholder="请输入 ip 类型 (4:V4,6:V6)" class="input-item"> -->
+				<input type="text" id="configWithout_entPrefixConfig_ip-ent" placeholder="请输入 ip 地址" class="input-item">
+				<input type="text" id="configWithout_entPrefixConfig_tcpPort-ent" placeholder="请输入 tcp 端口" class="input-item">
+				<input type="text" id="configWithout_entPrefixConfig_udpPort-ent" placeholder="请输入 udp 端口" class="input-item">
+				<button class="btn" id="configWithoutBtn-ent" >确定</button>
+			</div>
+			<div class="noneDisplay" id="queryPrefixPanel-ent">
+				<input type="text" id="queryPrefix_prefix-ent" placeholder="请输入要查询的前缀" class="input-item">
+				<button class="btn" id="queryPrefixBtn-ent" >确定</button>
+			</div>
+		</div>
+		<div class="noneDisplay" id="web_notice">
+			<div class="noticeSmallPanel">
+				<p style="font-size: 24px; text-align: center; color: #267a91;">提示</p>
+				<div id="notice_content" style="font-size: 20px;margin-top: 26px;line-height: 30px;color: #999;">
+
+				</div>
+				<button class="btn" id="web_noticeBtn">
+					我知道了
+				</button>
+			</div>
+		</div>
+
+
+
+    </div>
+	<script src="./js/api.js"></script>
+	<script>
+		const web_noticeBtn = document.getElementById("web_noticeBtn");
+		web_noticeBtn.addEventListener("click", () => {
+			document.getElementById("web_notice").setAttribute("class", "noneDisplay");
+		});
+
+		function showNotice(notice_string){
+			document.getElementById("notice_content").innerHTML = notice_string;
+		    document.getElementById("web_notice").setAttribute("class", "web_notice");
+		}
+	</script>
+	<script>
+	    const loginBtn = document.getElementById("loginBtn");
+	    loginBtn.addEventListener("click", () => {
+			
+			let u = document.getElementById("usernameInp").value;
+			let p = document.getElementById("passwordInp").value;
+            if(u == "admin" && p == "admin"){
+				window.location.href='./ini.html';
+			}
+	    else if(u == "user" && p == "123"){
+				window.location.href='./iniUser.html';
+                        }
+			let req={
+				username: u,
+				password: p
+			};
+
+			//TODELETE
+			//document.getElementById("login-wrapper").setAttribute("class", "noneDisplay");
+			//document.getElementById("title_business_moudle").setAttribute("class", "titleOfBusinessMoulde");
+			//document.getElementById("handle-business-panel").setAttribute("class", "business-wrapper");
+
+			xmlHttp.onreadystatechange = function(){
+			    //complete
+			    if(xmlHttp.readyState == 4){
+			        if(xmlHttp.status == 200){
+			            //请求成功执行的回调函数
+						let res = getWantObject(xmlHttp.responseText);
+						if(res.status === 1){
+							//登录成功
+							//设置token
+
+							localStorage.setItem("Bearer-token","Bearer " + res.data.token);
+
+							document.getElementById("login-wrapper").setAttribute("class", "noneDisplay");
+							document.getElementById("title_business_moudle").setAttribute("class", "titleOfBusinessMoulde");
+							document.getElementById("handle-business-panel").setAttribute("class", "business-wrapper");
+
+							showNotice("登录成功");
+						}
+						else{
+							document.getElementById("loginMsg").innerText = res.message;
+						}
+			        }else{
+			            //请求失败的回调函数
+			          document.getElementById("loginMsg").innerText = "请求失败";
+			        }
+			    }
+			};
+			xmlHttp.open("GET", url_base + "path=identitytoken&method=POST&json=\{\"username\":\"" + u + "\",\"password\":\"" + p + "\"\}", true);
+		    xmlHttp.setRequestHeader("Content-Type","application/json;");  //用POST的时候一定要有这句
+		    xmlHttp.send();
+	    });
+    </script>
+	<script>
+		let curMoudel = 0;
+		const moudleMax = 3;
+		const moudleTitles = ["标识相关操作", "数据模板相关操作","企业相关操作"];
+		const moudleNames = ["handle", "template","ent"];
+		const titleSwitchMoudleA = document.getElementById("switchMoudle");
+		titleSwitchMoudleA.addEventListener("click", () => {
+			document.getElementById( moudleNames[curMoudel] + "-business-panel").setAttribute("class", "noneDisplay");
+			curMoudel += 1;
+			if(curMoudel >= moudleMax){
+				curMoudel = 0;
+			}
+			let name = moudleNames[curMoudel];
+			document.getElementById("title_business_moudle_title").innerHTML = moudleTitles[curMoudel];
+			document.getElementById( moudleNames[curMoudel] + "-business-panel").setAttribute("class", "business-wrapper");
+		});
+
+	</script>
+	<script src="./js/contentCode.js"></script>
+	<script src="./js/sha256.js"></script>
+	<script src="./js/externalConstant.js"></script>
+	<script src="./js/setInitPrefix.js"></script>
+	<script src="./js/handleMoudle.js"></script>
+	<script src="./js/templateMoudle.js"></script>
+	<script src="./js/entMoudle.js"></script>
+
+</body>
+
+
+</html>

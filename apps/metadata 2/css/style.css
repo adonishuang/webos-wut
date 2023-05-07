@@ -1,0 +1,325 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	list-style: none;
+	/* 下划线消失 */
+	text-decoration: none;
+	font-family: 'Josefin Sans'sans-serif;
+}
+
+
+body {
+	background-color: #f3f5f9;
+}
+
+.wrapper {
+	/* 弹性布局 */
+	display: flex;
+	/* 相对定位 */
+	position: relative;
+}
+
+.wrapper .sidebar {
+	width: 200px;
+	height: 100%;
+	background-color: #364155;
+	padding: 30px 0px;
+	/* 生成绝对定位的元素 */
+	position: fixed;
+}
+
+.wrapper .sidebar h2 {
+	color: #fff;
+	text-transform: uppercase;
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+
+.wrapper .sidebar ul li {
+	padding: 15px;
+	border-bottom: 1px solid #5b6487;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wrapper .sidebar ul li:hover {
+	background-color: #364155;
+}
+
+
+.wrapper .sidebar ul li a {
+	color: #ffffff;
+	display: block;
+}
+
+.wrapper .sidebar ul li:hover a {
+	color: #fff;
+}
+
+.selecteduili {
+	background-color: #28303f;
+}
+
+.selectedullia {
+	color: #6c83aa;
+}
+
+.wrapper .sidebar ul li a .fas {
+	width: 25px;
+}
+
+
+.wrapper .sidebar .social_media {
+	/* 绝对定位 */
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.wrapper .sidebar .social_media a {
+	display: block;
+	width: 40px;
+	background: #364155;
+	height: 40px;
+	line-height: 45px;
+	text-align: center;
+	margin: 0 5px;
+	color: #5b6487;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.wrapper .main_content {
+	width: 100%;
+	/* margin-left: 200px; */
+}
+
+.wrapper .main_content .header {
+	padding: 20px;
+	background: #364155;
+	color: #ffffff;
+	border-bottom: 1px solid #e0e4e8;
+}
+
+.wrapper .main_content .info {
+	margin: 20px;
+	color: #717171;
+	line-height: 25px;
+}
+
+.wrapper .main_content .info div {
+	margin-bottom: 20px;
+}
+
+
+.search {
+	padding: 10px 0;
+}
+
+.search .search2 {
+	position: relative;
+	width: 300px;
+	margin: 0 auto;
+	display: flex;
+	/*设置宽度后，居中*/
+}
+
+input,
+button{
+	position: relative;
+	width: 300px;
+	margin: 0 auto;
+	/*设置宽度后，居中*/
+	border: none;
+	/*无边框样式；元素的总宽度和高度包括边框的宽度 */
+	outline: none;
+	/*无轮廓样式；轮廓是在元素周围绘制的一条线，在边框之外并且可能与其他内容重叠，以凸显元素，元素的总宽度和高度不受轮廓线宽度的影响。*/
+}
+
+.search .search2 input {
+	width: 100%;
+	height: 42px;
+	padding-left: 13px;
+	border: 1px solid #364155;
+	border-radius: 19px;
+	/*border-radius 属性用于向元素添加圆角边框：*/
+	background: transparent;
+	/*背景透明*/
+}
+
+ .search .search2 button {
+	height: 42px;
+	width: 42px;
+	cursor: pointer;
+	/* cursor属性定义了鼠标指针放在一个元素边界范围内时所用的光标形状 */
+	position: absolute;
+	background: #364155;
+	border-radius: 0 19px 19px 0;
+	width: 60px;
+	right: 0;
+} 
+
+.search .search2 button:hover {
+	background-color: #364155;
+	/* 点击搜索按钮时的背景颜色 */
+}
+
+ /* 在<button>元素后面插入内容，并设置所插入内容的样式： */
+.search .search2 button:before {
+	content: "搜索";
+	/*插入的内容*/
+	font-size: 13px;
+	/*插入内容的字体大小*/
+	color: #ffffff;
+	/*插入内容的字体颜色*/
+}
+
+
+.autocomplete {
+  /*容器定位设置为 relative:*/
+  position: relative;
+  display: inline-block;
+}
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*设置自动填充项宽度与容器相同*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+.autocomplete-items div:hover {
+  /*鼠标移动到填充项设置的背景颜色*/
+  background-color: #e9e9e9;
+}
+.autocomplete-active {
+  /*使用箭头键浏览填充项时的背景颜色*/
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+/* 数据表信息卡片 */
+.card {
+	position: relative;
+	width: 40vh;
+	height: 250px;
+	background: #fff;
+	border-radius: 10px;
+	overflow: hidden;
+	margin: 15px;
+}
+
+.circle {
+	position: absolute;
+	top: -190px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 350px;
+	height: 350px;
+	background: #ffffff;
+	clip-path: circle();
+}
+
+.circle:before {
+	content: "";
+	position: absolute;
+	top: -8px;
+	left: -10px;
+	width: 100%;
+	height: 100%;
+	background: transparent;
+	box-shadow: 0 0 0 20px #364155;
+	border-radius: 50%;
+	z-index: 100;
+	pointer-events: none;
+}
+
+.circle .imgBx {
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	width: 200px;
+	height: 200px;
+	background: #ffffff;
+}
+
+.circle .imgBx img {
+	position: absolute;
+	margin-top: 75px;
+	margin-left: 50px;
+	width: 50%;
+	height: 50%;
+	object-fit: cover;
+	transition: 0.5s;
+	transform-origin: bottom;
+}
+
+.circle .imgBx:hover img {
+	transform: scale(1.3);
+}
+
+.content {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 40vh;
+	height: 140px;
+	padding: 10px 10px;
+}
+
+.fa-linkedin {
+	background: #0077b5;
+	color: #fff;
+	padding: 2px 4px;
+	border-radius: 2px;
+}
+
+.content h3 {
+	font-size: 1.4em;
+	color: #333;
+	margin-top: 7px;
+}
+
+.textIcon {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 10px;
+	padding: 0 2px;
+}
+
+.textIcon h4 {
+	color: #e91e63;
+	font-weight: 400;
+}
+
+.textIcon a {
+	color: #e91e63;
+}
+
+/* 表格卡片列表布局 */
+.tableinfo {
+	display: grid;
+	/* 声明列的宽度,数字3表示的重复4次，即有4列宽度为200px*/
+	grid-template-columns: repeat(4, 42vh);
+	/* 声明行间距和列间距 */
+	grid-gap: 0 3vh;
+	margin-left: 5vh;
+	overflow-y: auto;
+}

@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>元数据管理</title>
+		<link rel="stylesheet" href="../css/style.css">
+		<link rel="stylesheet" href="../css/tablestyle.css">
+		<link rel="stylesheet" href="../layui/css/layui.css">
+		<link rel="stylesheet" href="../layui/css/modules/layer/default/layer.css"/>
+		<link rel="stylesheet" href="../layui/css/modules/laydate/default/laydate.css"/>
+	</head>
+
+	<body onload="createCard();">
+		<div class="wrapper">
+			<div class="main_content">
+				<div class="header">
+					<i class="layui-icon layui-icon-spread-left"></i>
+					<p style="float: right; font-size: 15px;">&nbsp超级管理员</p>
+					<img onclick="changeUser()" src="../resource/img/down.png"
+						style="float: right; width: 20px; height: 20px;">
+					<br />
+				</div>
+				<!-- 查询框 -->
+				<div class="search" style="margin: 15px 0 0 40px;">
+					<div class="search2" style="float: left;">
+						<!-- <label>数据表名称&nbsp</label> -->
+						<input id="searchInput" placeholder="请输入数据表名称...">
+						<button onclick="searchTable()"></button>
+					</div>
+					<!-- <button onclick="addTable()" type="button" class="layui-btn"
+						style="width: 13vh; margin-left: 3vh; background-color: #364155; ">
+						<i class="layui-icon layui-icon-addition layui-font-10"></i> 新建
+					</button> -->
+				</div>
+
+				<div id="tableCards" class="tableinfo" style="clear: both;"></div>
+			</div>
+		</div>
+
+		<div class="wrapper" id="tanchuang1" style="display: none;">
+			<div class="main_content">
+
+				<div class="messagetab">
+					<div id="table" class="tab_box">
+						<button class="tab_btn active">业务信息</button>
+						<button class="tab_btn">字段信息</button>
+						<div class="line"></div>
+					</div>
+
+					<div class="tablecontent_box">
+						<div id="yewuxinxi" class="tablecontent active" style="margin-top: 2vh; margin-left: 5vh;">
+
+							<div class="layui-form">
+								<div class="layui-form-item">
+									<label class="layui-form-label">表名</label>
+									<div class="layui-input-block">
+										<input id="tablename" type="text" placeholder="待采集" autocomplete="off"
+											class="layui-input" style="width: 90vh;" readonly>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">描述</label>
+									<div class="layui-input-block">
+										<input id="description" type="text" placeholder="待采集" autocomplete="off"
+											class="layui-input" style="width: 90vh;" readonly>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<label class="layui-form-label">负责人</label>
+									<div class="layui-input-block">
+										<input id="owner" type="text" placeholder="待采集" autocomplete="off"
+											class="layui-input" style="width: 90vh;" readonly>
+									</div>
+								</div>
+
+								<div class="layui-form-item">
+									<label class="layui-form-label">分区</label>
+									<div class="layui-input-block" style="width: 30vh;">
+										<select id="subarea" disabled>
+											<option value="">待采集</option>
+											<option value="0">网关信息表</option>
+											<option value="1">设备信息表</option>
+											<option value="2">关系表</option>
+										</select>
+									</div>
+								</div>
+
+								<div id="sj" class="layui-form-item layui-form-text" style="display: flex;">
+									<label  class="layui-form-label" style="width: fit-content;">创建时间</label>
+									<div class="layui-input-block" style="width: 30vh; margin-left: 3.2vh;">
+										<input type="text" class="layui-input" id="createtime" disabled>
+									</div>
+									<label class="layui-form-label"
+										style="width: fit-content; margin-left: 4vh;">更新时间</label>
+									<div class="layui-input-block" style="width: 30vh; margin-left: 3.2vh;">
+										<input type="text" class="layui-input" id="updatetime" placeholder="暂无更新记录"
+											disabled>
+									</div>
+								</div>
+
+								<div class="layui-form-item layui-form-text">
+									<label class="layui-form-label" style="width: fit-content;">注意事项</label>
+									<div class="layui-input-block">
+										<textarea id="tip" name="desc" placeholder="待采集" class="layui-textarea"
+											style="width: 90vh;" readonly></textarea>
+									</div>
+								</div>
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<button id="edityewu" class="layui-btn" onclick="updateYewu()">编辑</button>
+										<button id="submityewu" class="layui-btn" onclick="submitYewu()">提交</button>
+										<button id="next" class="layui-btn" onclick="addTableYewu()" style="display: none;">下一步</button>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div id="ziduanxinxi" class="tablecontent">
+							<div>
+								<table id="demo" lay-filter="test1">
+
+								</table>
+								<button onclick="addCol()" type="button" class="layui-btn"
+									style="width: 18vh; margin-left: 2vh;">
+									<i class="layui-icon layui-icon-addition layui-font-10"></i> 新建字段
+								</button>
+								<button id="submitCol" onclick="submitCol()" type="button" class="layui-btn"
+									style="width: 18vh; margin-left: 2vh; display: none;">
+									<i class="layui-icon layui-icon-ok layui-font-10"></i> 提交
+								</button>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		
+		<form id="tanchuang2" class="layui-form" style="display: none; margin-top: 4vh;" lay-filter="form1"> <!-- 提示：如果你不想用form，你可以换成div等任何一个普通元素 -->
+		  <div class="layui-form-item">
+		    <label class="layui-form-label" >字段名</label>
+		    <div class="layui-input-block" style="width: 80vh;">
+		      <input type="text" name="ziduanming" placeholder="请输入" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+		  <div class="layui-form-item layui-form-text">
+		    <label class="layui-form-label">描述</label>
+		    <div class="layui-input-block" style="width: 80vh;">
+		      <input type="text" name="miaoshu" placeholder="请输入" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">属性</label>
+		    <div class="layui-input-block" style="width: 60vh;">
+		      <select name="shuxing" lay-filter="aihao">
+				<option value="">请选择</option> 
+		        <option value="int">int</option>
+				<option value="float">float</option>
+		        <option value="double">double</option>
+				<option value="char">char</option>
+				<option value="varchar">varchar</option>
+				<option value="date">date</option>
+				<option value="datetime">datetime</option>
+				<option value="text">text</option>
+		      </select>
+		    </div>
+		  </div>
+		  
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">长度</label>
+		    <div class="layui-input-block" style="width: 60vh;">
+		      <input type="text" name="changdu" placeholder="请输入" autocomplete="off" class="layui-input">
+		    </div>
+		  </div>
+		  
+		  <div class="layui-form-item">
+		    <label class="layui-form-label">选项</label>
+		        <div class="layui-input-block">
+		          <input type="checkbox" name="like[pri]" title="主键">
+		          <input type="checkbox" name="like[isnull]" title="非空">
+		        </div>
+		  </div>		  
+		  
+		  <div class="layui-form-item">
+		    <div class="layui-input-block">
+		      <button class="layui-btn" lay-submit lay-filter="submitcol">提交</button>
+		      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+		    </div>
+		  </div>
+		  <!-- 更多表单结构排版请移步文档左侧【页面元素-表单】一项阅览 -->
+		</form>
+		
+
+		<script src="../layui/layui.js"></script>
+		<script src="http://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+		<script src="../js/const.js"></script>
+		<script>
+			var tablename = '';
+			var sites = new Array();
+			var dataBak = [];   //定义一个空数组,用来存储之前编辑过的数据已经存放新数据
+
+			function changeUser() {
+				alert("更换用户");
+			}
+
+			function searchTable() {
+				var searchname = document.getElementById("searchInput").value + "card";
+				console.log(searchname);
+				var hidemask = document.querySelectorAll(".card");
+
+				for (var i = 0; i < hidemask.length; i++) {
+					hidemask[i].style.display = "none";
+				}
+				var div = document.getElementById(searchname);
+
+				if (searchname == "card") {
+					for (var i = 0; i < hidemask.length; i++) {
+						hidemask[i].style.display = "block";
+					}
+					//alert("请输入表名！")
+				} else if (div == null) {
+					for (var i = 0; i < hidemask.length; i++) {
+						hidemask[i].style.display = "block";
+					}
+					alert("未查询到该数据表。")
+				} else {
+					div.style.display = "block";
+				}
+
+			}
+
+			function createCard() {
+				var info = {
+					"databaseType": dbtype,
+					"operate": "find",
+					"sql": "select TABLE_NAME from information_schema.TABLES where TABLE_SCHEMA='gateway'"
+				};
+				$.ajax({
+					url: addr + "/request",
+					data: JSON.stringify(info), //将数据转化为json格式
+					dataType: 'json', //接收后台数据的格式
+					type: "POST",
+					contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+					//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+					success: function(response) {
+						if (response.code == 1) {
+							alert(response.msg);
+						} else {
+							console.log(res);
+							var res = response.data;
+							var div0 = document.getElementById("tableCards");
+
+							for (var i = 0; i < res.length; i++) {
+								console.log(i);
+								console.log(res[i].TABLE_NAME);
+								sites[i] = res[i].TABLE_NAME;
+								//获取div  
+								var div = document.createElement('div');
+								div.className = "card";
+								div.id = res[i].TABLE_NAME + "card";
+
+								//图片
+								var div2 = document.createElement("div");
+								div2.className = "circle";
+								var div3 = document.createElement("div");
+								div3.className = "imgBx";
+								div2.appendChild(div3);
+								var img = document.createElement("img");
+								img.src = "../resource/img/table" + i + ".png";
+								img.alt = "";
+								div3.appendChild(img);
+								div.appendChild(div2);
+
+								var div4 = document.createElement("div");
+								div4.className = "content";
+								//表中文名称
+								var tableName = document.createElement("h3");
+								tableName.innerHTML = res[i].TABLE_NAME;
+								div4.appendChild(tableName);
+								tableName.style =
+									"cursor:pointer; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; margin:55px 10px 10px 10px; width:35vh;";
+								tableName.title = res[i].TABLE_NAME;
+
+								//详情按钮
+								var div5 = document.createElement("div");
+								div5.className = "textIcon";
+								var jumpBtn = document.createElement("a");
+								jumpBtn.setAttribute("href", "#");
+								jumpBtn.setAttribute("target", "_self");
+								jumpBtn.setAttribute("onclick", "selectOne(this)");
+								jumpBtn.id = res[i].TABLE_NAME;
+								var h4 = document.createElement("h4");
+								h4.style.marginLeft = "10px";
+								h4.innerHTML = "详情";
+								jumpBtn.appendChild(h4);
+								div5.appendChild(jumpBtn)
+								div4.appendChild(div5);
+
+								div.appendChild(div4);
+								div0.appendChild(div);
+							}
+						}
+					}
+				})
+			}
+
+			function selectOne(obj) {
+				tablename = obj.id;
+				// window.location.href = "table.html?tablename=" + tablename;
+				layer.open({
+					type: 1,
+					content: $('#tanchuang1'),
+					area: ['1100px', '700px'],
+					title: "元数据信息",
+					success: function(layero, index) {
+						console.log(layero, index);
+						createTable("select");
+					},
+					cancel: function(index, layero) {
+						//只有当点击confirm框的确定时，该层才会关闭
+						layer.close(index);
+						$("#tanchuang1").css("display", "none");
+						
+						return false;
+					}
+				});
+			}
+
+			function autocomplete(inp, arr) {
+				/*自动填充函数有两个参数，input 输入框元素和自动填充的数组*/
+				var currentFocus;
+				/* 监听 input 输入框，当在 input 输入框元素中时执行以下函数*/
+				inp.addEventListener("input", function(e) {
+					var a, b, i, val = this.value;
+					/*关闭已打开的自动填充列表*/
+					closeAllLists();
+					if (!val) {
+						return false;
+					}
+					currentFocus = -1;
+					/*创建 DIV 元素用于放置自动填充列表的值*/
+					a = document.createElement("DIV");
+					a.setAttribute("id", this.id + "autocomplete-list");
+					a.setAttribute("class", "autocomplete-items");
+					/*DIV 作为自动填充容器的子元素*/
+					this.parentNode.appendChild(a);
+					/*循环数组*/
+					for (i = 0; i < arr.length; i++) {
+						/*检查填充项是否有与文本字段值相同的内容，不区分大小写*/
+						if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+							/*为每个匹配元素创建一个 DIV 元素 */
+							b = document.createElement("DIV");
+							/*匹配项加粗*/
+							b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+							b.innerHTML += arr[i].substr(val.length);
+							/*选中的填充项插入到隐藏 input 输入字段，用于保存当前选中值*/
+							b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+							/*当有人点击填充项（DIV 元素）时执行函数*/
+							b.addEventListener("click", function(e) {
+								/*选中的填充项插入到隐藏 input 搜索字段*/
+								inp.value = this.getElementsByTagName("input")[0].value;
+								/*关闭自动填充列表*/
+								closeAllLists();
+							});
+							a.appendChild(b);
+						}
+					}
+				});
+				/*按下键盘上的一个键时执行函数*/
+				inp.addEventListener("keydown", function(e) {
+					var x = document.getElementById(this.id + "autocomplete-list");
+					if (x) x = x.getElementsByTagName("div");
+					if (e.keyCode == 40) {
+						/*如果按下箭头向下键，currentFocus 变量加 1，即向下移动一位*/
+						currentFocus++;
+						/*使当前选中项更醒目*/
+						addActive(x);
+					} else if (e.keyCode == 38) { //up
+						/*按下箭头向上键，选中列表项向上移动一位*/
+						currentFocus--;
+						/*使当前选中项更醒目*/
+						addActive(x);
+					} else if (e.keyCode == 13) {
+						/*如果按下 ENTER 键，阻止提交，你也可以设置 submit 提交*/
+						e.preventDefault();
+						if (currentFocus > -1) {
+							/*模拟点击选中项*/
+							if (x) x[currentFocus].click();
+						}
+					}
+				});
+
+				function addActive(x) {
+					/*设置选中的选项函数*/
+					if (!x) return false;
+					/*移动选项设置不同选中选项的背景颜色*/
+					removeActive(x);
+					if (currentFocus >= x.length) currentFocus = 0;
+					if (currentFocus < 0) currentFocus = (x.length - 1);
+					/*添加 "autocomplete-active" 类*/
+					x[currentFocus].classList.add("autocomplete-active");
+				}
+
+				function removeActive(x) {
+					/*移除没有选中选项的 "autocomplete-active" 类*/
+					for (var i = 0; i < x.length; i++) {
+						x[i].classList.remove("autocomplete-active");
+					}
+				}
+
+				function closeAllLists(elmnt) {
+					/*关闭自动添加列表*/
+					var x = document.getElementsByClassName("autocomplete-items");
+					for (var i = 0; i < x.length; i++) {
+						if (elmnt != x[i] && elmnt != inp) {
+							x[i].parentNode.removeChild(x[i]);
+						}
+					}
+				}
+				/*点击 HTML 文档任意位置关闭填充列表*/
+				document.addEventListener("click", function(e) {
+					closeAllLists(e.target);
+				});
+			}
+
+			autocomplete(document.getElementById("searchInput"), sites);
+
+			function addTable() {
+				layer.open({
+					type: 1,
+					content: $('#tanchuang1'),
+					area: ['1100px', '700px'],
+					title: "新建表",
+					success: function(layero, index) {
+						console.log(layero, index);
+						createTable("add");
+						document.getElementById("subarea").removeAttribute("disabled");
+						layui.use('form', function() {
+							var form = layui.form;
+							form.render('select');
+						});
+						document.getElementById("owner").removeAttribute("readonly");
+						document.getElementById("description").removeAttribute("readonly");
+						document.getElementById("tip").removeAttribute("readonly");
+						document.getElementById("tablename").removeAttribute("readonly");
+						$("#submityewu").css("display","none");
+						$("#next").css("display","");
+						$("#submitCol").css("display","");
+					},
+					cancel: function(index, layero) {
+						//只有当点击confirm框的确定时，该层才会关闭
+						layer.close(index);
+						$("#tanchuang1").css("display", "none");
+						return false;
+					}
+				});
+			}
+			
+			
+			const tabs = document.querySelectorAll('.tab_btn');
+			const all_content = document.querySelectorAll('.tablecontent');
+			tabs.forEach((tab, index) => {
+				tab.addEventListener('click', (e) => {
+					console.log(index);
+					tabs.forEach(tab => {
+						tab.classList.remove('active')
+					});
+					tab.classList.add('active');
+					var line = document.querySelector('.line');
+					line.style.width = e.target.offsetWidth + "px";
+					line.style.left = e.target.offsetLeft + "px";
+					//alert(line.style.left);
+					//alert(line.style.width);
+					all_content.forEach(content => {
+						content.classList.remove('active')
+					})
+					all_content[index].classList.add('active')
+				});
+			
+			})
+			
+			function createTable(operatetype) {
+				console.log(tablename);
+				tabs[0].classList.add('active');
+				tabs[1].classList.remove('active');
+				all_content[0].classList.add('active');
+				all_content[1].classList.remove('active');
+				var line = document.querySelector('.line');
+				line.style.width = "300px";
+				line.style.left =  "106px";
+				$("#submitCol").css("display","none");
+				if (operatetype == "select") {
+					$("#sj").css("display","flex");
+					$("#edityewu").css("display","");
+					$("#submityewu").css("display","");
+					$("#next").css("display","none");
+					var info = {
+						"databaseType": dbtype,
+						"operate": "find",
+						"sql": "select * from information_schema.TABLES where TABLE_SCHEMA='gateway' and TABLE_NAME='" +
+							tablename + "'"
+					};
+					$.ajax({
+						url: addr + "/request",
+						data: JSON.stringify(info), //将数据转化为json格式
+						dataType: 'json', //接收后台数据的格式
+						type: "POST",
+						contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+						//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+						success: function(response) {
+							if (response.code == 1) {
+								alert(response.msg);
+							} else {
+								console.log(res);
+								var res = response.data;
+								document.getElementById("tablename").value = res[0].TABLE_NAME;
+								if (res[0].TABLE_COMMENT != null) {
+									document.getElementById("description").value = res[0].TABLE_COMMENT;
+								}
+
+								if (res[0].UPDATE_TIME != null) {
+									document.getElementById("updatetime").value = res[0].UPDATE_TIME.slice(0, 10) +
+										" " +
+										res[0].UPDATE_TIME.slice(11, 19);
+								}
+								document.getElementById("createtime").value = res[0].CREATE_TIME.slice(0, 10) + " " +
+									res[0].CREATE_TIME.slice(11, 19);
+							}
+						}
+					})
+
+					var info2 = {
+						"databaseType": dbtype,
+						"operate": "find",
+						"sql": "select * from metadata_table where metadata_name='" + tablename + "'"
+					};
+					setTimeout(function() {
+						$.ajax({
+							url: addr + "/request",
+							data: JSON.stringify(info2), //将数据转化为json格式
+							dataType: 'json', //接收后台数据的格式
+							type: "POST",
+							contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+							//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+							success: function(response) {
+								if (response.code == 1) {
+									alert(response.msg);
+								} else {
+									console.log(res);
+									var res = response.data;
+									if (res.length > 0) {
+										document.getElementById("owner").value = res[0].metadata_owner;
+										document.getElementById("tip").value = res[0].metadata_tip;
+										document.getElementById("subarea").removeAttribute("disabled");
+										layui.use('form', function() {
+											var form = layui.form;
+											form.render('select');
+										});
+										$("#subarea").val(res[0].metadata_subarea);
+										$("#subarea").attr("disabled", true);
+										layui.use('form', function() {
+											var form = layui.form;
+											form.render('select');
+										});
+									}
+								}
+							}
+						})
+					}, 200)
+
+					setTimeout(function() {
+						layui.use('table', function() {
+							var table = layui.table;
+							var api = '';
+							var info = {
+								"databaseType": dbtype,
+								"operate": "find",
+								"sql": "select * from information_schema.COLUMNS where TABLE_SCHEMA='gateway' and TABLE_NAME='" +
+									tablename + "'"
+							};
+							$.ajax({
+								url: addr + "/request",
+								data: JSON.stringify(info), //将数据转化为json格式
+								dataType: 'json', //接收后台数据的格式
+								type: "POST",
+								contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+								//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+								success: function(response) {
+									if (response.code == 1) {
+										alert(response.msg);
+									} else {
+										var res = response.data;
+										table.render({
+											elem: '#demo',
+											page: true,
+											limit: 8,
+											limits: [8],
+											data: res,
+											cols: [
+												[ //表头
+													{
+														field: 'COLUMN_NAME',
+														title: '字段名称',
+														sort: true,
+														fixed: 'left'
+													}, {
+														field: 'COLUMN_COMMENT',
+														title: '描述',
+														sort: true
+													}, {
+														field: 'DATA_TYPE',
+														title: '字段属性'
+													}, {
+														field: 'IS_NULLABLE',
+														title: '能否为空',
+														width: 100
+													}, {
+														field: 'COLUMN_KEY',
+														title: '键类型',
+														sort: true
+													}, {
+														field: '',
+														title: '操作',
+														sort: true,
+														align: 'center',
+														toolbar: '#barDemo'
+													}
+												]
+											]
+										});
+
+										table.on('tool(test1)', function(obj) {
+											switch (obj.event) {
+												// case 'add':
+												//   layer.msg('添加');
+												// break;
+												case 'delete':
+													deleteCol(obj);
+													break;
+												case 'update':
+													updateCol(obj);
+													break;
+											};
+										});
+
+									}
+								}
+							})
+
+						});
+					}, 200)
+				} else if (operatetype == "add") {
+					$("#tablename").val("");
+					$("#description").val("");
+					$("#owner").val("");
+					$("#subarea").val("");
+					$("#tip").val("");
+					$("#sj").css("display","none");
+					$("#edityewu").css("display","none");
+					layui.use('table', function() {
+						var table = layui.table;
+
+						table.render({
+							elem: '#demo',
+							page: true,
+							limit: 8,
+							limits: [8],
+							data: dataBak,
+							cols: [
+								[ //表头
+									{
+										field: 'COLUMN_NAME',
+										title: '字段名称',
+										sort: true,
+										fixed: 'left'
+									}, {
+										field: 'COLUMN_COMMENT',
+										title: '描述',
+										sort: true
+									}, {
+										field: 'DATA_TYPE',
+										title: '字段属性'
+									}, {
+										field: 'IS_NULLABLE',
+										title: '是否必填',
+										width: 100
+									}, {
+										field: 'COLUMN_KEY',
+										title: '键类型',
+										sort: true
+									}, {
+										field: '',
+										title: '操作',
+										sort: true,
+										align: 'center',
+										toolbar: '#barDemo'
+									}
+								]
+							]
+						});
+
+						table.on('tool(test1)', function(obj) {
+							switch (obj.event) {
+								// case 'add':
+								//   layer.msg('添加');
+								// break;
+								case 'delete':
+									deleteCol(obj);
+									break;
+								case 'update':
+									updateCol(obj);
+									break;
+							};
+						});
+
+
+
+
+
+					});
+				}
+			}
+
+
+			function updateYewu() {
+				layer.msg("请直接在本页面编辑。");
+				document.getElementById("subarea").removeAttribute("disabled");
+				layui.use('form', function() {
+					var form = layui.form;
+					form.render('select');
+				});
+				document.getElementById("owner").removeAttribute("readonly");
+				document.getElementById("description").removeAttribute("readonly");
+				document.getElementById("tip").removeAttribute("readonly");
+			}
+
+			function submitYewu() {
+				var newtablename=document.getElementById("tablename").value
+				var owner = document.getElementById("owner").value;
+				var description = document.getElementById("description").value;
+				var tip = document.getElementById("tip").value;
+				var subarea = document.getElementById("subarea").value;
+				console.log(owner);
+				var xmlhttp;
+				var res = '';
+				var operate = "insert";
+				var sql = "";
+				var sql2 = '';
+				var info = {
+					"databaseType": dbtype,
+					"operate": "find",
+					"sql": "select id from metadata_table where metadata_name='" + tablename + "'"
+				};
+				$.ajax({
+					url: addr + "/request",
+					data: JSON.stringify(info), //将数据转化为json格式
+					dataType: 'json', //接收后台数据的格式
+					type: "POST",
+					contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+					//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+					success: function(response) {
+						if (response.code == 1) {
+							alert(response.msg);
+						} else {
+							console.log(res);
+							var res = response.data;
+							if (res.length > 0) {
+								operate = "update";
+							}
+							if (description != "") {
+								sql2 = "alter table " + newtablename + " comment '" + description + "';"
+							}
+							if (operate == "insert") {
+
+								sql =
+									"insert into metadata_table (metadata_name,metadata_subarea,metadata_owner,metadata_tip) values ('" +
+									newtablename + "','" + subarea + "','" + owner + "','" + tip + "')";
+							} else {
+
+								sql = "update metadata_table set metadata_subarea='" + subarea +
+									"',metadata_owner='" + owner +
+									"',metadata_tip='" + tip + "' where metadata_name='" + newtablename + "'";
+							}
+							var info2 = {
+								"databaseType": dbtype,
+								"operate": "",
+								"sql": sql
+							};
+							$.ajax({
+								url: addr + "/request",
+								data: JSON.stringify(info2), //将数据转化为json格式
+								dataType: 'json', //接收后台数据的格式
+								type: "POST",
+								contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+								//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+								success: function(response) {
+									if (response.code == 1) {
+										alert(response.msg);
+									} else {
+										console.log(res);
+									}
+								}
+							})
+
+							setTimeout(function() {
+								var info3 = {
+									"databaseType": "mysql",
+									"operate": "",
+									"sql": sql2
+								};
+								$.ajax({
+									url: addr + "/request",
+									data: JSON.stringify(info3), //将数据转化为json格式
+									dataType: 'json', //接收后台数据的格式
+									type: "POST",
+									contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+									//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+									success: function(response) {
+										if (response.code == 1) {
+											alert(response.msg);
+										} else {
+											console.log(res);
+											layer.msg("信息已更新。");
+											$("#subarea").attr("disabled", true);
+											$("#description").attr("disabled", true);
+											$("#tip").attr("disabled", true);
+											$("#owner").attr("disabled", true);
+											layui.use('form', function() {
+												var form = layui.form;
+												form.render('select');
+											});
+										
+										}
+									}
+								})
+							})
+
+						}
+					}
+				})
+			}
+			
+			function addTableYewu(){
+				tabs[1].classList.add('active');
+				tabs[0].classList.remove('active');
+				all_content[1].classList.add('active');
+				all_content[0].classList.remove('active');
+				var line = document.querySelector('.line');
+				line.style.width = "300px";
+				line.style.left =  "619px";
+			}
+			
+			function submitCol(){
+				var newtablename=document.getElementById("tablename").value;
+				var owner = document.getElementById("owner").value;
+				var description = document.getElementById("description").value;
+				var tip = document.getElementById("tip").value;
+				var subarea = document.getElementById("subarea").value;
+				var res = '';
+				var sql = "";
+				var sql2 = '';
+				var info = {
+					"databaseType": dbtype,
+					"operate": "",
+					"sql": "insert into metadata_table (metadata_name,metadata_subarea,metadata_owner,metadata_tip) values ('" +
+									newtablename + "','" + subarea + "','" + owner + "','" + tip + "')"
+				};
+				$.ajax({
+					url: addr + "/request",
+					data: JSON.stringify(info), //将数据转化为json格式
+					dataType: 'json', //接收后台数据的格式
+					type: "POST",
+					contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+					//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+					success: function(response) {
+						if (response.code == 1) {
+							alert(response.msg);
+						} else {
+							//新建表
+							alert("1");
+							// sql=" CREATE TABLE "+newtablename+" ("
+							
+						}
+					}
+				})
+			}
+
+			function deleteCol(obj) {
+				layer.confirm('真的删除行么', function(index) {
+					
+					var info = {
+						"databaseType": dbtype,
+						"operate": "",
+						"sql": "alter table "+tablename+" drop COLUMN "+obj.data["COLUMN_NAME"]
+					};
+					$.ajax({
+						url: addr + "/request",
+						data: JSON.stringify(info), //将数据转化为json格式
+						dataType: 'json', //接收后台数据的格式
+						type: "POST",
+						contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+						//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+						success: function(response) {
+							if (response.code == 500) {
+								alert("操作失败");
+							} else {
+								//重载表
+								
+							}
+						}
+					})
+					obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+					layer.close(index);
+					//向服务端发送删除指令
+
+				});
+			}
+
+			function updateCol(obj) {
+				var ziduan=obj.data["COLUMN_NAME"];
+				layer.open({
+					type: 1,
+					content: $('#tanchuang2'),
+					area: ['800px', '500px'],
+					title: "修改字段",
+					success: function(layero, index) {
+						console.log(obj.data);
+						// createTable("select");
+						var pri=false;
+						var isnull=false;
+						if(obj.data["IS_NULLABLE"]=="NO"){
+							isnull=true;
+						}
+						if(obj.data["COLUMN_KEY"]=="PRI"){
+							pri=true;
+						}
+						layui.use('form',function(){
+							var form = layui.form;
+							form.val("form1", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+							  "ziduanming": obj.data["COLUMN_NAME"] // "name": "value"
+							  ,"shuxing": obj.data["DATA_TYPE"]
+							  ,"changdu": 225
+							  ,"like[pri]": pri
+							  ,"miaoshu": obj.data["COLUMN_COMMENT"]
+							  ,"like[isnull]": isnull
+							});
+						})
+						
+						
+					},
+					cancel: function(index, layero) {
+						//只有当点击confirm框的确定时，该层才会关闭
+						layer.close(index);
+						$("#tanchuang2").css("display", "none");
+				
+						return false;
+					}
+				});
+				layui.use('form', function(){
+				  var form = layui.form;
+				  
+				  //监听提交
+				  form.on('submit(submitcol)', function(data){
+				    
+					var sql="alter table "+tablename+" CHANGE COLUMN `"+ziduan+"` "+data.field["ziduanming"]+" "+data.field["shuxing"]+"("+data.field["changdu"]+")"
+					if(data.field["like[isnull]"]=="on"){
+						sql=sql+" not null"
+					}else{
+						sql=sql+" null"
+					}
+					if(data.field["miaoshu"]!=""){
+						sql=sql+" COMMENT '"+data.field["miaoshu"]+"'"
+					}
+					if(data.field["like[pri]"]=="on"){
+						sql=sql+","
+						layui.use('table',function(){
+							var table = layui.table;
+							var tbdata = table.cache["demo"];
+							console.log(tbdata);
+							var key="(`"+data.field["ziduanming"]+"`";
+							for(var i=0;i<tbdata.length;i++){
+								if(tbdata[i]["COLUMN_KEY"]=="PRI"){
+									key=key+",`"+tbdata[i]["COLUMN_NAME"]+"`";
+								}
+							}
+							if(key!="('"+data.field["ziduanming"]+"'"){
+								sql=sql+"DROP PRIMARY KEY,";
+							}
+							key=key+")";
+							sql=sql+"ADD PRIMARY KEY "+key+" USING BTREE;"
+						});
+					}else{
+						sql=sql+";"
+					}
+					// sql="ALTER TABLE `gateway`.`metadata_table` ADD COLUMN `rrr` varchar(255) NOT NULL AFTER `yyy`,DROP PRIMARY KEY,ADD PRIMARY KEY (`rrr`) USING BTREE;"
+					console.log(sql);
+					var info = {
+						"databaseType": dbtype,
+						"operate": "",
+						"sql": sql
+					};
+					$.ajax({
+						url: addr + "/request",
+						data: JSON.stringify(info), //将数据转化为json格式
+						dataType: 'json', //接收后台数据的格式
+						type: "POST",
+						contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+						//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+						success: function(response) {
+							if (response.code == 500) {
+								alert("操作失败");
+							} else {
+								//重载表
+								layui.use('table', function() {
+									var table = layui.table;
+									var api = '';
+									var info = {
+										"databaseType": dbtype,
+										"operate": "find",
+										"sql": "select * from information_schema.COLUMNS where TABLE_SCHEMA='gateway' and TABLE_NAME='" +
+											tablename + "'"
+									};
+									$.ajax({
+										url: addr + "/request",
+										data: JSON.stringify(info), //将数据转化为json格式
+										dataType: 'json', //接收后台数据的格式
+										type: "POST",
+										contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+										//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+										success: function(response) {
+											if (response.code == 1) {
+												alert(response.msg);
+											} else {
+												var res = response.data;
+												table.render({
+													elem: '#demo',
+													page: true,
+													limit: 8,
+													limits: [8],
+													data: res,
+													cols: [
+														[ //表头
+															{
+																field: 'COLUMN_NAME',
+																title: '字段名称',
+																sort: true,
+																fixed: 'left'
+															}, {
+																field: 'COLUMN_COMMENT',
+																title: '描述',
+																sort: true
+															}, {
+																field: 'DATA_TYPE',
+																title: '字段属性'
+															}, {
+																field: 'IS_NULLABLE',
+																title: '是否必填',
+																width: 100
+															}, {
+																field: 'COLUMN_KEY',
+																title: '键类型',
+																sort: true
+															}, {
+																field: '',
+																title: '操作',
+																sort: true,
+																align: 'center',
+																toolbar: '#barDemo'
+															}
+														]
+													]
+												});
+								
+												table.on('tool(test1)', function(obj) {
+													switch (obj.event) {
+														// case 'add':
+														//   layer.msg('添加');
+														// break;
+														case 'delete':
+															deleteCol(obj);
+															break;
+														case 'update':
+															updateCol(obj);
+															break;
+													};
+												});
+								
+											}
+										}
+									})
+								
+								});
+								
+							}
+						}
+					})
+				    
+				    layer.close(layer.index);
+					return false;
+				  });
+				});
+			}
+			
+			function addCol(){
+				layer.open({
+					type: 1,
+					content: $('#tanchuang2'),
+					area: ['800px', '500px'],
+					title: "新建字段",
+					success: function(layero, index) {
+						console.log(layero, index);
+						layui.use('form',function(){
+							var form = layui.form;
+							form.val("form1", { //formTest 即 class="layui-form" 所在元素属性 lay-filter="" 对应的值
+							  "ziduanming": '' // "name": "value"
+							  ,"shuxing": ''
+							  ,"changdu": ''
+							  ,"like[pri]": ''
+							  ,"miaoshu": ''
+							  ,"like[isnull]": ''
+							});
+						})
+						
+						// createTable("select");
+					},
+					cancel: function(index, layero) {
+						//只有当点击confirm框的确定时，该层才会关闭
+						layer.close(index);
+						$("#tanchuang2").css("display", "none");
+				
+						return false;
+					}
+				});
+				layui.use('form', function(){
+				  var form = layui.form;
+				  
+				  //监听提交
+				  form.on('submit(submitcol)', function(data){
+				    
+					var sql="alter table "+tablename+" add "+data.field["ziduanming"]+" "+data.field["shuxing"]+"("+data.field["changdu"]+")"
+					if(data.field["like[isnull]"]=="on"){
+						sql=sql+" not null"
+					}else{
+						sql=sql+" null"
+					}
+					if(data.field["miaoshu"]!=""){
+						sql=sql+" COMMENT '"+data.field["miaoshu"]+"'"
+					}
+					if(data.field["like[pri]"]=="on"){
+						sql=sql+","
+						layui.use('table',function(){
+							var table = layui.table;
+							var tbdata = table.cache["demo"];
+							console.log(tbdata);
+							var key="(`"+data.field["ziduanming"]+"`";
+							for(var i=0;i<tbdata.length;i++){
+								if(tbdata[i]["COLUMN_KEY"]=="PRI"){
+									key=key+",`"+tbdata[i]["COLUMN_NAME"]+"`";
+								}
+							}
+							if(key!="('"+data.field["ziduanming"]+"'"){
+								sql=sql+"DROP PRIMARY KEY,";
+							}
+							key=key+")";
+							sql=sql+"ADD PRIMARY KEY "+key+" USING BTREE;"
+						});
+					}else{
+						sql=sql+";"
+					}
+					// sql="ALTER TABLE `gateway`.`metadata_table` ADD COLUMN `rrr` varchar(255) NOT NULL AFTER `yyy`,DROP PRIMARY KEY,ADD PRIMARY KEY (`rrr`) USING BTREE;"
+					console.log(sql);
+					var info = {
+						"databaseType": dbtype,
+						"operate": "",
+						"sql": sql
+					};
+					$.ajax({
+						url: addr + "/request",
+						data: JSON.stringify(info), //将数据转化为json格式
+						dataType: 'json', //接收后台数据的格式
+						type: "POST",
+						contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+						//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+						success: function(response) {
+							if (response.code == 500) {
+								alert("操作失败");
+							} else {
+								//重载表
+								layui.use('table', function() {
+									var table = layui.table;
+									var api = '';
+									var info = {
+										"databaseType": dbtype,
+										"operate": "find",
+										"sql": "select * from information_schema.COLUMNS where TABLE_SCHEMA='gateway' and TABLE_NAME='" +
+											tablename + "'"
+									};
+									$.ajax({
+										url: addr + "/request",
+										data: JSON.stringify(info), //将数据转化为json格式
+										dataType: 'json', //接收后台数据的格式
+										type: "POST",
+										contentType: "application/json;charset=utf-8", //发送给后台数据的格式
+										//发送成功后执行，response中存的是从后台返回的json数据，名字可以随意改
+										success: function(response) {
+											if (response.code == 1) {
+												alert(response.msg);
+											} else {
+												var res = response.data;
+												table.render({
+													elem: '#demo',
+													page: true,
+													limit: 8,
+													limits: [8],
+													data: res,
+													cols: [
+														[ //表头
+															{
+																field: 'COLUMN_NAME',
+																title: '字段名称',
+																sort: true,
+																fixed: 'left'
+															}, {
+																field: 'COLUMN_COMMENT',
+																title: '描述',
+																sort: true
+															}, {
+																field: 'DATA_TYPE',
+																title: '字段属性'
+															}, {
+																field: 'IS_NULLABLE',
+																title: '是否必填',
+																width: 100
+															}, {
+																field: 'COLUMN_KEY',
+																title: '键类型',
+																sort: true
+															}, {
+																field: '',
+																title: '操作',
+																sort: true,
+																align: 'center',
+																toolbar: '#barDemo'
+															}
+														]
+													]
+												});
+								
+												table.on('tool(test1)', function(obj) {
+													switch (obj.event) {
+														// case 'add':
+														//   layer.msg('添加');
+														// break;
+														case 'delete':
+															deleteCol(obj);
+															break;
+														case 'update':
+															updateCol(obj);
+															break;
+													};
+												});
+								
+											}
+										}
+									})
+								
+								});
+								
+							}
+						}
+					})
+				    
+				    layer.close(layer.index);
+					return false;
+				  });
+				});
+			}
+			
+		</script>
+		<script type="text/html" id="barDemo">
+			<button class="layui-btn layui-btn-sm" lay-event="update" style="width: 7vh">编辑</button>
+			<button class="layui-btn layui-btn-sm" lay-event="delete" style="width: 7vh">删除</button>
+		</script>
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,14 @@
+org/example/mapper/DeviceMapper.class
+org/example/pojo/GatewayLocation.class
+org/example/pojo/User.class
+org/example/pojo/Gateways.class
+org/example/pojo/Device.class
+org/example/mapper/UserMapper.class
+org/example/pojo/Info.class
+org/example/pojo/HttpStatus.class
+org/example/controller/DeviceController.class
+org/example/controller/GatewayController.class
+org/example/Application.class
+org/example/pojo/Result.class
+org/example/mapper/InfoMapper.class
+org/example/controller/UserController.class

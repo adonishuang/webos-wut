@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d230cb3"],{ee96:function(e,t,n){"use strict";n.r(t);var r=function(){var e=this,t=e.$createElement;e._self._c;return e._m(0)},c=[function(){var e=this,t=e.$createElement,n=e._self._c||t;return n("div",[e._v(" 个人资料 "),n("input",{attrs:{type:"text"}})])}],u={name:"userinfo",data:function(){return{}}},a=u,i=n("2877"),s=Object(i["a"])(a,r,c,!1,null,"f9895e1c",null);t["default"]=s.exports}}]);
+//# sourceMappingURL=chunk-2d230cb3.35812645.js.map
