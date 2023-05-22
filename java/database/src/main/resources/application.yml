@@ -1,0 +1,29 @@
+
+spring:
+  datasource:
+    mysql:
+#      username: root
+#      password: 123456
+#      jdbc-url: jdbc:mysql://124.221.112.4:3307/gateway?characterEncoding=utf-8&serverTimezone=GMT%2B8
+      username: root
+      password: hyf980731
+      jdbc-url: jdbc:mysql://localhost:3306/gateway?characterEncoding=utf-8&serverTimezone=GMT%2B8
+#      username: root
+#      password: admin123456
+#      jdbc-url: jdbc:mysql://127.0.0.1:3306/gateway?useSSL=false&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    sqlite:
+      jdbc-url: jdbc:sqlite:./test.sqlite
+      username:
+      password:
+      driver-class-name: org.sqlite.JDBC
+  data:
+    mongodb:
+      host: 124.221.112.4
+      port: 27018
+      username: admin
+      password: "admin123"
+      database: test
+      authentication-database: admin
+server:
+  port: 9000

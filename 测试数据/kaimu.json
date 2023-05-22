@@ -1,0 +1,24 @@
+{
+  "handle": "88.343.000005/kaimu",
+  "templateVersion": "2.0",
+  "value": [
+    {
+      "auth": "",
+      "index": 2000,
+      "type": "kaimu1",
+      "data": {
+        "format": "string",
+        "value": "hello1"
+      }
+    },
+    {
+      "auth": "",
+      "index": 2001,
+      "type": "kaimu2",
+      "data": {
+        "format": "string",
+        "value": "hello2"
+      }
+    }
+  ]
+}
